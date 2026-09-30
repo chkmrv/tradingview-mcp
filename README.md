@@ -76,6 +76,54 @@ Paste this into Claude Code and it will handle the rest:
 
 > Install the TradingView MCP server. Clone https://github.com/tradesdontlie/tradingview-mcp.git, run npm install, add it to my MCP config at ~/.claude/.mcp.json, and launch TradingView with the debug port. Then verify the connection with tv_health_check.
 
+Prompt to use:
+I want you to guide me through connecting Claude to my TradingView Desktop app using the open-source TradingView MCP from https://github.com/tradesdontlie/tradingview-mcp so Claude can read and analyze my live charts.
+
+I may not be technical at all. Follow these rules strictly:
+
+RULES
+1. Guide me ONE step at a time. Give me a single step, then wait for me to confirm it worked before giving the next one.
+2. Never assume a step succeeded. After every step, ask me what I see. If I paste an error, diagnose it before moving on.
+3. Use plain language. Explain briefly what each step does and why, in one or two sentences, like you are teaching a beginner.
+4. If a command fails, ask me to paste the exact error message. Do not guess blindly.
+5. Commands must be given one per message block so I can copy them one at a time. Never combine two commands on one line.
+
+WHAT WE ARE BUILDING (explain this to me first in simple terms)
+Four pieces: Node.js (the engine that runs the connector), the TradingView MCP (the bridge), TradingView Desktop launched with a debug flag (the open door), and one line in Claude's settings file (telling Claude the bridge exists).
+
+STEPS TO GUIDE ME THROUGH
+Step 0. Ask me: (a) Windows or Mac? (b) Do I have the TradingView DESKTOP APP installed, or do I use TradingView in the browser? The browser version does NOT work. If I only use the browser, first send me to https://www.tradingview.com/desktop/ to install the desktop app and sign in. Note: a paid TradingView plan is required. (c) Confirm I am using the Claude DESKTOP app, not claude.ai in a browser, since local connections only work in the desktop app.
+
+Step 1. Check if Node.js is installed: have me run "node -v" in Command Prompt (Windows) or Terminal (Mac). If not recognized, send me to https://nodejs.org to install the LTS version with default options, then have me CLOSE and REOPEN the terminal before checking again (the old terminal window will not see the new install).
+
+Step 2. Have me download the ZIP from https://github.com/tradesdontlie/tradingview-mcp (green Code button, Download ZIP) and extract it. IMPORTANT known gotcha: the ZIP often extracts as a folder inside a folder (tradingview-mcp-main inside tradingview-mcp-main). Have me confirm the folder that directly contains package.json and a src folder, and have me tell you the full path to that folder. Use that exact path for everything that follows.
+
+Step 3. Have me open a terminal, cd into that folder, and run "npm install" (two separate commands, one at a time). Tell me that npm warnings about vulnerabilities are normal and safe to ignore, and that I should NOT run npm audit fix.
+
+Step 4. Launch TradingView with the debug port. Have me fully close TradingView first (including the system tray on Windows or the dock on Mac).
+- Windows: try "%LOCALAPPDATA%\TradingView\TradingView.exe" --remote-debugging-port=9222
+- If path not found on Windows, TradingView is often installed as a Microsoft Store package. Have me run: powershell -c "Get-AppxPackage *trading* | Select-Object Name, InstallLocation" and build the launch command from the InstallLocation result: "<InstallLocation>\TradingView.exe" --remote-debugging-port=9222
+- Mac: open -a TradingView --args --remote-debugging-port=9222
+Once TradingView opens, have me sign in and open a real chart (not the welcome tab). Explain that from now on TradingView must always be started this way for Claude to see it, and offer to create a small launcher script (.bat on Windows) so I can start it with a double click. On Windows the launcher should look up the install location dynamically with Get-AppxPackage so TradingView updates do not break it.
+
+Step 5. Connect Claude. Have me open Claude Desktop, go to Settings, then Developer, then Edit Config. This opens a file called claude_desktop_config.json. CRITICAL: if the file already has content, do NOT let me replace it. Have me paste the entire current contents of the file to you, and you produce the merged version with an "mcpServers" section added containing:
+"tradingview": { "command": "node", "args": ["<full path to the folder from Step 2>/src/server.js"] }
+On Windows the path in JSON needs double backslashes (C:\\Users\\...). Editing with Notepad or any plain text editor is fine.
+
+Step 6. Restart Claude COMPLETELY. On Windows: right-click the Claude icon in the system tray (bottom right, behind the ^ arrow) and choose Quit. Closing the window is NOT enough. Then reopen Claude and check Settings, then Developer: a server called "tradingview" should now be listed. If it says "No servers added", the app was not fully quit; have me check Task Manager for leftover Claude processes.
+
+Step 7. Verify. Have me start a NEW conversation (existing chats do not pick up new tools) and ask: "Run tv_health_check and tell me if TradingView is connected." Success looks like cdp_connected: true and api_available: true. Then celebrate by having Claude read my current chart symbol and price.
+
+KNOWN FIXES
+- "npm is not recognized": Node not installed, or terminal opened before Node was installed. Install Node, then open a NEW terminal.
+- "Could not read package.json": wrong folder, usually the nested ZIP folder issue from Step 2.
+- "The system cannot find the path specified" when launching TradingView: use the PowerShell Get-AppxPackage method from Step 4.
+- tradingview server not showing in Claude settings: Claude was not fully quit (system tray), or a typo in the JSON. Ask me to paste the config file and check it.
+- tv_health_check fails: TradingView is not running, was started the normal way instead of with the debug command, or no chart tab is open.
+
+Start now with Step 0.
+
+
 Or follow the manual steps below.
 
 ## Quick Start

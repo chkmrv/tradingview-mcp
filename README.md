@@ -75,7 +75,7 @@ Gives your AI assistant eyes and hands on your own chart:
 Paste this into Claude Code and it will handle the rest:
 
 > Install the TradingView MCP server. Clone https://github.com/tradesdontlie/tradingview-mcp.git, run npm install, add it to my MCP config at ~/.claude/.mcp.json, and launch TradingView with the debug port. Then verify the connection with tv_health_check.
-
+```bash
 Prompt to use:
 I want you to guide me through connecting Claude to my TradingView Desktop app using the open-source TradingView MCP from https://github.com/tradesdontlie/tradingview-mcp so Claude can read and analyze my live charts.
 
@@ -122,7 +122,7 @@ KNOWN FIXES
 - tv_health_check fails: TradingView is not running, was started the normal way instead of with the debug command, or no chart tab is open.
 
 Start now with Step 0.
-
+```
 
 Or follow the manual steps below.
 

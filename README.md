@@ -147,7 +147,7 @@ TradingView Desktop must be running with Chrome DevTools Protocol enabled on por
 
 **Windows:**
 ```bash
-scripts\launch_tv_debug.bat
+powershell -c "Start-Process 'shell:AppsFolder\TradingView.Desktop_n534cwy3pjxzj!TradingView.Desktop' -ArgumentList '--remote-debugging-port=9222'"
 ```
 
 **Linux:**

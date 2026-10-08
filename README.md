@@ -74,10 +74,10 @@ Gives your AI assistant eyes and hands on your own chart:
 
 Paste this into Claude Code and it will handle the rest:
 
-> Install the TradingView MCP server. Clone https://github.com/tradesdontlie/tradingview-mcp.git, run npm install, add it to my MCP config at ~/.claude/.mcp.json, and launch TradingView with the debug port. Then verify the connection with tv_health_check.
+> Install the TradingView MCP server. Clone https://github.com/chkmrv/tradingview-mcp.git, run npm install, add it to my MCP config at ~/.claude/.mcp.json, and launch TradingView with the debug port. Then verify the connection with tv_health_check.
 ```bash
 Prompt to use:
-I want you to guide me through connecting Claude to my TradingView Desktop app using the open-source TradingView MCP from https://github.com/tradesdontlie/tradingview-mcp so Claude can read and analyze my live charts.
+I want you to guide me through connecting Claude to my TradingView Desktop app using the open-source TradingView MCP from https://github.com/chkmrv/tradingview-mcp so Claude can read and analyze my live charts.
 
 I may not be technical at all. Follow these rules strictly:
 
@@ -96,7 +96,7 @@ Step 0. Ask me: (a) Windows or Mac? (b) Do I have the TradingView DESKTOP APP in
 
 Step 1. Check if Node.js is installed: have me run "node -v" in Command Prompt (Windows) or Terminal (Mac). If not recognized, send me to https://nodejs.org to install the LTS version with default options, then have me CLOSE and REOPEN the terminal before checking again (the old terminal window will not see the new install).
 
-Step 2. Have me download the ZIP from https://github.com/tradesdontlie/tradingview-mcp (green Code button, Download ZIP) and extract it. IMPORTANT known gotcha: the ZIP often extracts as a folder inside a folder (tradingview-mcp-main inside tradingview-mcp-main). Have me confirm the folder that directly contains package.json and a src folder, and have me tell you the full path to that folder. Use that exact path for everything that follows.
+Step 2. Have me download the ZIP from https://github.com/chkmrv/tradingview-mcp (green Code button, Download ZIP) and extract it. IMPORTANT known gotcha: the ZIP often extracts as a folder inside a folder (tradingview-mcp-main inside tradingview-mcp-main). Have me confirm the folder that directly contains package.json and a src folder, and have me tell you the full path to that folder. Use that exact path for everything that follows.
 
 Step 3. Have me open a terminal, cd into that folder, and run "npm install" (two separate commands, one at a time). Tell me that npm warnings about vulnerabilities are normal and safe to ignore, and that I should NOT run npm audit fix.
 
@@ -131,7 +131,7 @@ Or follow the manual steps below.
 ### 1. Install
 
 ```bash
-git clone https://github.com/tradesdontlie/tradingview-mcp.git
+git clone https://github.com/chkmrv/tradingview-mcp.git
 cd tradingview-mcp
 npm install
 ```
